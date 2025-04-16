@@ -21,9 +21,10 @@ else:
 def auto_comment():
     with sync_playwright() as p:
         browser = p.chromium.launch(
-            headless=True,
+            headless=False,
             args=["--no-sandbox", "--disable-dev-shm-usage"]
-        )
+            )
+
         context = browser.new_context()
         context.add_cookies([{
             'name': pair.split('=')[0].strip(),
