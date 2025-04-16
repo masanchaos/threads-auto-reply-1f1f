@@ -11,7 +11,7 @@ https://line.me/ti/g2/oSdVRcm28E5iu4DfFsOCvTzp6fTPOBXLa3SB9w?utm_source=invitati
 
 SEARCH_URL = "https://www.threads.net/search?q=異位性皮膚炎"
 
-# 讀取已留言網址
+# 已留言過的紀錄
 if os.path.exists("commented.json"):
     with open("commented.json", "r") as f:
         commented_posts = set(json.load(f))
@@ -29,8 +29,6 @@ def auto_comment():
                 args=["--no-sandbox", "--disable-dev-shm-usage"]
             )
             context = browser.new_context()
-
-            # 加入 Cookie
             context.add_cookies([{
                 'name': pair.split('=')[0].strip(),
                 'value': pair.split('=')[1].strip(),
@@ -41,45 +39,36 @@ def auto_comment():
             } for pair in THREADS_COOKIE.split(';') if '=' in pair])
 
             page = context.new_page()
-            print("🌐 開啟搜尋頁中...")
-
+            print("🌐 前往搜尋頁")
             try:
                 page.goto(SEARCH_URL, timeout=20000)
-                print("✅ 搜尋頁成功載入")
+                print("✅ 搜尋頁載入完成")
             except Exception as e:
-                print(f"❌ Threads 搜尋頁載入失敗: {e}")
+                print(f"❌ 搜尋頁開啟失敗：{e}")
                 return
 
-            # 模擬滑動加載更多貼文
             for _ in range(5):
                 page.mouse.wheel(0, 1500)
                 time.sleep(1)
 
+            # ✅ 正確的貼文抓法（修正縮排）
             post_links = []
             articles = page.locator('article').all()
             for article in articles:
-            try:
-                link = article.locator('a[href*="/@"]').first
-                href = link.get_attribute("href")
-                if href:
-                    post_links.append(href)
-            except Exception as e:
-                print(f"⚠️ 抓取某篇貼文時錯誤：{e}")
-                continue
-
-total_posts = len(post_links)
-print(f"🔍 共找到 {total_posts} 則貼文")
-
-
-total_posts = len(post_links)
-print(f"🔍 共找到 {total_posts} 則貼文")
+                try:
+                    link = article.locator('a[href*="/@"]').first
+                    href = link.get_attribute("href")
+                    if href:
+                        post_links.append(href)
+                except Exception as e:
+                    print(f"⚠️ 抓取貼文連結時錯誤：{e}")
+                    continue
 
             total_posts = len(post_links)
             print(f"🔍 共找到 {total_posts} 則貼文")
 
-            for link in post_links:
-                href = link.get_attribute("href")
-                if not href or href in commented_posts:
+            for href in post_links:
+                if href in commented_posts:
                     continue
 
                 post_url = f"https://www.threads.net{href}"
@@ -90,22 +79,20 @@ print(f"🔍 共找到 {total_posts} 則貼文")
                     post_page.goto(post_url, timeout=10000)
                     time.sleep(2)
                     content = post_page.locator("article").inner_text(timeout=5000)
-
                     if "異位性皮膚炎" in content:
-                        print("🟢 發現關鍵字，嘗試留言中...")
+                        print("🟢 關鍵字命中，留言中...")
                         comment_box = post_page.locator("textarea").first
                         comment_box.fill(COMMENT_TEXT)
                         comment_box.press("Enter")
-                        print("✅ 留言成功！")
+                        print("✅ 留言成功")
                         commented_count += 1
                         commented_posts.add(href)
                         with open("commented.json", "w") as f:
                             json.dump(list(commented_posts), f)
                     else:
-                        print("⏭ 無關鍵字，略過")
-
+                        print("⏭ 無關鍵字，跳過")
                 except Exception as e:
-                    print(f"⚠️ 貼文處理失敗：{e}")
+                    print(f"⚠️ 處理貼文錯誤：{e}")
                 finally:
                     post_page.close()
                     time.sleep(2)
@@ -113,10 +100,22 @@ print(f"🔍 共找到 {total_posts} 則貼文")
             browser.close()
 
     except Exception as e:
-        print("🔥 程式整體錯誤：", e)
+        print("🔥 總錯誤：", e)
 
-    print(f"📊 本次掃描 {total_posts} 篇，成功留言 {commented_count} 篇")
+    print(f"📊 掃描 {total_posts} 篇，留言成功 {commented_count} 篇")
     return total_posts, commented_count
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
