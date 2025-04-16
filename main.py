@@ -28,7 +28,7 @@ def auto_comment():
                 headless=True,
                 args=["--no-sandbox", "--disable-dev-shm-usage"]
             )
-            context = browser.new_context()
+            context = browser.new_context(user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36")
             context.add_cookies([{
                 'name': pair.split('=')[0].strip(),
                 'value': pair.split('=')[1].strip(),
