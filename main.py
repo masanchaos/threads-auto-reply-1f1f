@@ -8,7 +8,7 @@ import json
 import os
 import undetected_chromedriver as uc
 
-THREADS_COOKIE = "ds_user_id=你的ID; sessionid=你的SESSION; csrftoken=你的TOKEN;"
+THREADS_COOKIE = "ds_user_id=73803533548; sessionid=73803533548%3ARuiWN6Im6053Ai%3A23%3AAYfC9yG70LSVHtc3xA_Qx9gXwN7uc5YvMj3RVjYPeQ; csrftoken=53dtYsAQK1jVLIAakTGNXubEGQg9ueCZ;"
 COMMENT_TEXT = "我也是患者，歡迎加入異膚社群和大家一起交流！！~\nhttps://line.me/ti/g2/oSdVRcm28E5iu4DfFsOCvTzp6fTPOBXLa3SB9w"
 
 SEARCH_URL = "https://www.threads.net/search?q=異位性皮膚炎"
