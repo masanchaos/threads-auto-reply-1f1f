@@ -11,11 +11,12 @@ def home():
 @app.route("/run")
 def run_bot():
     try:
-        main.auto_comment()
-        return "✅ 自動留言執行完成！"
+        total, commented = main.auto_comment()
+        return f"✅ 共掃描 {total} 篇，成功留言 {commented} 篇"
     except Exception as e:
         import traceback
         return f"❌ 發生錯誤：<pre>{traceback.format_exc()}</pre>"
+
 
 
 
