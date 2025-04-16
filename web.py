@@ -10,8 +10,13 @@ def home():
 
 @app.route("/run")
 def run_bot():
-    main.auto_comment()
-    return "✅ 自動留言執行完成！"
+    try:
+        main.auto_comment()
+        return "✅ 自動留言執行完成！"
+    except Exception as e:
+        import traceback
+        return f"❌ 發生錯誤：<pre>{traceback.format_exc()}</pre>"
+
 
 
 if __name__ == "__main__":
