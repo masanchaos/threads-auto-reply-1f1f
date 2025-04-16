@@ -3,7 +3,7 @@ import time
 import json
 import os
 
-THREADS_COOKIE = "ds_user_id=你的ID; sessionid=你的SESSION; csrftoken=你的TOKEN;"
+THREADS_COOKIE = "ds_user_id=73803533548;sessionid=73803533548%3ARuiWN6Im6053Ai%3A23%3AAYejYhkcrIxZX1sxQNDVtbVs8ZJmMVpjESncWAfJbw; csrftoken=53dtYsAQK1jVLIAakTGNXubEGQg9ueCZ;"  # ← 請自己填入
 
 COMMENT_TEXT = '''我也是患者，歡迎加入異膚社群和大家一起交流！！~
 https://line.me/ti/g2/oSdVRcm28E5iu4DfFsOCvTzp6fTPOBXLa3SB9w?utm_source=invitation&utm_medium=link_copy&utm_campaign=default'''
