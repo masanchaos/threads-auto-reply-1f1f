@@ -55,7 +55,20 @@ def auto_comment():
                 page.mouse.wheel(0, 1500)
                 time.sleep(1)
 
-            post_links = page.locator('a[href*="/@"]').all()
+            post_links = []
+            articles = page.locator('article').all()
+            for article in articles:
+            try:
+                link = article.locator('a[href*="/@"]').first
+                href = link.get_attribute("href")
+            if href:
+                post_links.append(href)
+            except:
+            continue
+
+total_posts = len(post_links)
+print(f"🔍 共找到 {total_posts} 則貼文")
+
             total_posts = len(post_links)
             print(f"🔍 共找到 {total_posts} 則貼文")
 
