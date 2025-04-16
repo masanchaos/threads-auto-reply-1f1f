@@ -1,3 +1,5 @@
+import subprocess
+subprocess.run(["playwright", "install", "--with-deps"])
 from playwright.sync_api import sync_playwright
 import time
 import json
