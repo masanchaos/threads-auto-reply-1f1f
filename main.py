@@ -35,8 +35,13 @@ def auto_comment():
             'secure': True
         } for pair in THREADS_COOKIE.split(';') if '=' in pair])
 
-        page = context.new_page()
-        page.goto("https://www.threads.net")
+        try:
+            page.goto("https://www.threads.net/search?q=異位性皮膚炎", timeout=15000)  # 最多等15秒，避免一直卡住
+        except Exception as e:
+            print("❌ Threads 搜尋頁無法開啟")
+            print(str(e))
+        return
+
         time.sleep(3)
         for _ in range(5):
             page.mouse.wheel(0, 1500)
