@@ -61,10 +61,15 @@ def auto_comment():
             try:
                 link = article.locator('a[href*="/@"]').first
                 href = link.get_attribute("href")
-            if href:
-                post_links.append(href)
-            except:
-            continue
+                if href:
+                    post_links.append(href)
+            except Exception as e:
+                print(f"⚠️ 抓取某篇貼文時錯誤：{e}")
+                continue
+
+total_posts = len(post_links)
+print(f"🔍 共找到 {total_posts} 則貼文")
+
 
 total_posts = len(post_links)
 print(f"🔍 共找到 {total_posts} 則貼文")
